@@ -39,37 +39,37 @@
         },
         "level": {
             "zsh": {
-                "color": "#d9ff00",
-                "style": "none",
+                "color": "#e4df4e",
+                "style": "yellow+none",
                 "icon": "",
                 "priority": 1
             },
            "test": {
-                "color": "#3bed00",
+                "color": "#d668db",
                 "style": "none",
                 "icon": "󰙨",
                 "priority": 1
             },
            "dbg": {
-                "color": "#3bed00",
+                "color": "#a5db68",
                 "style": "none",
                 "icon": "",
                 "priority": 1
             },
            "info": {
-                "color": "#3bed00",
+                "color": "#6898db",
                 "style": "none",
                 "icon": "󰋽",
                 "priority": 2
             },
            "warn": {
-                "color": "#3bed00",
+                "color": "#e08f49",
                 "style": "none",
                 "icon": "",
                 "priority": 3
             },
            "error": {
-                "color": "#3bed00",
+                "color": "#e04949",
                 "style": "none",
                 "icon": "",
                 "priority": 4

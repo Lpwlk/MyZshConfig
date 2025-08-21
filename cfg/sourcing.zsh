@@ -1,5 +1,8 @@
 #!/bin/zsh
 
+dbg() {
+    echo $1 >> $ZSH_CFG/.dump/dbg.txt
+}
 
 sourceZshDir() {
     local unit="ms"
@@ -27,12 +30,12 @@ sourceZshDir() {
     fi  
 
     start=$(date +%s%N)
-
     log ZSH "  Sourcing $DIM${folder:h}/$RESET${folder:t} directory..."
 
     find $folder -type f -name "*.zsh" ! -path "$ZSH_CFG$exclude" | while read -r file; do
-        elapsed=$(($(($(date +%s%N) - start)) / timediv))
+        sstart=$(date +%s%N)
         test -e $file && source $file
+        elapsed=$(($(($(date +%s%N) - sstart)) / timediv))
         echo "    ${file:t} sourcing done (󱦟 ${elapsed} ${suffix})"
         sleep $sleep_time
     done

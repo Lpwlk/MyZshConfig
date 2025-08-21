@@ -1,16 +1,18 @@
 <samp>
 
-<span style="color:#AFDFFF">
+<!-- <span style="color:#AFDFFF"> -->
 
-<center>
+<div align="center">
 
-## TODO dev list for My Zsh Environment
-
-</center>
+## TODO list
 
 <span style="color:#9198A1">
 
-<center>Author - Lpwlk &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; Date - 08/08/2025</center>
+Author - Lpwlk &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; Date - 08/08/2025
+
+</div>
+
+<span style="color:#9198A1">
 
 <samp>This file contains multiple TODO lists that I use to track my ideas & ongoing dev processes for the `MyZshEnv` repository</samp>
 

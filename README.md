@@ -1,13 +1,8 @@
 <samp>
 
-<center>
+<div align="center">
 
 # MyShellEnv
-</center>
-
-
-
-<center>
 
 ![Open source](https://img.shields.io/badge/open-source-6894d4?logo=git&logoColor=6894d4)
 ![GitHub license](https://img.shields.io/github/license/Lpwlk/MyZshConfig?color=86c255 "Github repo license")
@@ -15,11 +10,13 @@
 [![GitHub tags](https://img.shields.io/github/v/tag/Lpwlk/MyZshConfig?color=6894d4)](https://github.com/Lpwlk/MyZshConfig/tags "Go to GitHub repo tags")
 [![GitHub last release](https://img.shields.io/github/release-date/Lpwlk/MyZshConfig?color=6894d4?label=Release)](https://github.com/Lpwlk/MyZshConfig "Go to GitHub repo")
 
-</center>
-
 <span style="color:#9198A1">
 
-<center>Author - Lpwlk &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; Date - 08/08/2025</center>
+Author - Lpwlk &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; Date - 08/08/2025
+
+</div>
+
+<span style="color:#9198A1">
 
 <samp>I created this repository to track the evolution of my personal shell (zsh) configuration. I'd like to use this repo to share the same configuration on MacOS and a future Linux laptop (Mint/Nix/Arch with zsh) </samp>
 
@@ -44,9 +41,7 @@
 7 - [References](#references)  
 
 
-<center>
-<img src="https://github.com/Lpwlk/Lpwlk/blob/main/assets/pulsing-bar.gif?raw=true">
-</center>
+<div align="center"><img src="https://github.com/Lpwlk/Lpwlk/blob/main/assets/pulsing-bar.gif?raw=true"></div>
 
 # 🖥️ My Zsh Configuration
 
@@ -97,30 +92,24 @@ This repository contains my **Zsh** configuration :
 ## &nbsp;&nbsp;License
 ## &nbsp;&nbsp;References
 
-
-<center>
+<div align="center">
     <img src="https://github.com/Lpwlk/Lpwlk/blob/main/assets/pulsing-bar.gif?raw=true">
-</center>
+</div>
 
-
-
-<center>
+<div align="center">
 
 &nbsp;
 
 ![Alt](https://repobeats.axiom.co/api/embed/64f2c824695dc073e6ea58664527f5045088a586.svg "Repobeats analytics image")
 
-</center>
+</div>
 
 
-
-<center>
-
-<samp>
+<div align="center"><samp>
 
 ###### Mardown file generated using <a href ="https://github.com/Lpwlk/ReadmeEngine">readme-engine</a>
 
-</samp>
+</div>
 
-</center>
+
 
