@@ -1,0 +1,214 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "zshrcConfig.sch.jsonc",
+
+  "type": "object",
+  "properties": {
+    "$schema": { "type": "string" },
+
+    "p10k": {
+      "type": "object",
+      "properties": {
+        "config_path": { "type": "string" },
+        "sourcep10k": { "type": "boolean" }
+      },
+      "required": ["config_path", "sourcep10k"],
+      "additionalProperties": false
+    },
+
+    "fastfetch": {
+      "type": "object",
+      "properties": {
+        "config_path": { "type": "string" },
+        "echofastfetch": { "type": "boolean" }
+      },
+      "required": ["config_path", "echofastfetch"],
+      "additionalProperties": false
+    },
+
+    "lpwlklogo": {
+      "type": "object",
+      "properties": {
+        "echologo": { "type": "boolean" }
+      },
+      "required": ["echologo"],
+      "additionalProperties": false
+    },
+
+    "sourcing": {
+      "type": "object",
+      "properties": {
+        "listDirs": { "type": "boolean" },
+        "listFiles": { "type": "boolean" },
+        "dirNameColor": { "type": "string" },
+        "dirPathColor": { "type": "string" }
+      },
+      "required": ["listDirs", "listFiles", "dirNameColor", "dirPathColor"],
+      "additionalProperties": false
+    },
+
+    "logger": {
+      "type": "object",
+      "properties": {
+        "timestamp": {
+          "type": "object",
+          "properties": {
+            "color": { "type": "string", "format": "color" },
+            "style": { "type": "string" }
+          },
+          "required": ["color", "style"],
+          "additionalProperties": false
+        },
+        "level": {
+          "type": "object",
+          "properties": {
+            "zsh": {
+              "type": "object",
+              "properties": {
+                "color": { "type": "string", "format": "color" },
+                "style": { "type": "string" },
+                "icon": { "type": "string" },
+                "priority": { "type": "integer" }
+              },
+              "required": ["color", "style", "icon", "priority"],
+              "additionalProperties": false
+            },
+            "test": {
+              "type": "object",
+              "properties": {
+                "color": { "type": "string", "format": "color" },
+                "style": { "type": "string" },
+                "icon": { "type": "string" },
+                "priority": { "type": "integer" }
+              },
+              "required": ["color", "style", "icon", "priority"],
+              "additionalProperties": false
+            },
+            "dbg": {
+              "type": "object",
+              "properties": {
+                "color": { "type": "string", "format": "color" },
+                "style": { "type": "string" },
+                "icon": { "type": "string" },
+                "priority": { "type": "integer" }
+              },
+              "required": ["color", "style", "icon", "priority"],
+              "additionalProperties": false
+            },
+            "info": {
+              "type": "object",
+              "properties": {
+                "color": { "type": "string", "format": "color" },
+                "style": { "type": "string" },
+                "icon": { "type": "string" },
+                "priority": { "type": "integer" }
+              },
+              "required": ["color", "style", "icon", "priority"],
+              "additionalProperties": false
+            },
+            "warn": {
+              "type": "object",
+              "properties": {
+                "color": { "type": "string", "format": "color" },
+                "style": { "type": "string" },
+                "icon": { "type": "string" },
+                "priority": { "type": "integer" }
+              },
+              "required": ["color", "style", "icon", "priority"],
+              "additionalProperties": false
+            },
+            "error": {
+              "type": "object",
+              "properties": {
+                "color": { "type": "string", "format": "color" },
+                "style": { "type": "string" },
+                "icon": { "type": "string" },
+                "priority": { "type": "integer" }
+              },
+              "required": ["color", "style", "icon", "priority"],
+              "additionalProperties": false
+            }
+          },
+          "required": ["zsh", "test", "dbg", "info", "warn", "error"],
+          "additionalProperties": false
+        },
+        "filename": {
+          "type": "object",
+          "properties": {
+            "color": { "type": "string", "format": "color" },
+            "style": { "type": "string" }
+          },
+          "required": ["color", "style"],
+          "additionalProperties": false
+        },
+        "funcname": {
+          "type": "object",
+          "properties": {
+            "color": { "type": "string", "format": "color" },
+            "style": { "type": "string" }
+          },
+          "required": ["color", "style"],
+          "additionalProperties": false
+        },
+        "message": {
+          "type": "object",
+          "properties": {
+            "color": { "type": "string", "format": "color" },
+            "style": { "type": "string" }
+          },
+          "required": ["color", "style"],
+          "additionalProperties": false
+        }
+      },
+      "required": ["timestamp", "level", "filename", "funcname", "message"],
+      "additionalProperties": false
+    },
+
+    "test": {
+      "type": "object",
+      "properties": {
+        "logos": {
+          "type": "object",
+          "properties": {
+            "echoLogo": { "type": "boolean" },
+            "logo": { "type": "string" }
+          },
+          "required": ["echoLogo", "logo"],
+          "additionalProperties": false
+        },
+        "mono": {
+          "type": "object",
+          "properties": {
+            "color": { "type": "string", "format": "color" },
+            "style": { "type": "string" }
+          },
+          "required": ["color", "style"],
+          "additionalProperties": false
+        },
+        "array": {
+          "type": "object",
+          "properties": {
+            "color": { "type": "string", "format": "color" },
+            "style": { "type": "string" }
+          },
+          "required": ["color", "style"],
+          "additionalProperties": false
+        },
+        "matrix": {
+          "type": "object",
+          "properties": {
+            "color": { "type": "string", "format": "color" },
+            "style": { "type": "string" }
+          },
+          "required": ["color", "style"],
+          "additionalProperties": false
+        }
+      },
+      "required": ["logos", "mono", "array", "matrix"],
+      "additionalProperties": false
+    }
+  },
+
+  "required": ["$schema", "p10k", "fastfetch", "lpwlklogo", "sourcing", "logger", "test"],
+  "additionalProperties": false
+}

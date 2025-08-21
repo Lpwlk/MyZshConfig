@@ -1,0 +1,98 @@
+{   
+    "$schema": "zshrcConfig.sch.jsonc",
+    "p10k": {
+        "config_path": "cfg/p10k/p10k.zsh", 
+        "sourcep10k": true
+    },
+    "fastfetch": {
+        "config_path": "cfg/fastfetch/config.jsonc",
+        "echofastfetch": true
+    },
+
+    "lpwlklogo": {
+        "echologo": true
+    },
+
+    "sourcing": {
+        "listDirs": true,
+        "listFiles": true,
+        "dirNameColor": "reset",
+        "dirPathColor": "dim"
+    },
+
+    "logger": {
+        "timestamp": {
+            "color": "#ffffff",
+            "style": "dim"
+        },
+        "filename": {
+            "color": "#ffffff",
+            "style": "dim"
+        },
+        "funcname": {
+            "color": "#ffffff",
+            "style": "dim"
+        },
+        "message": {
+            "color": "#ffffff",
+            "style": "none"
+        },
+        "level": {
+            "zsh": {
+                "color": "#d9ff00",
+                "style": "none",
+                "icon": "",
+                "priority": 1
+            },
+           "test": {
+                "color": "#3bed00",
+                "style": "none",
+                "icon": "󰙨",
+                "priority": 1
+            },
+           "dbg": {
+                "color": "#3bed00",
+                "style": "none",
+                "icon": "",
+                "priority": 1
+            },
+           "info": {
+                "color": "#3bed00",
+                "style": "none",
+                "icon": "󰋽",
+                "priority": 2
+            },
+           "warn": {
+                "color": "#3bed00",
+                "style": "none",
+                "icon": "",
+                "priority": 3
+            },
+           "error": {
+                "color": "#3bed00",
+                "style": "none",
+                "icon": "",
+                "priority": 4
+            }
+        }
+    },
+    //test
+    "test": {
+        "logos": {
+            "echoLogo": true,
+            "logo": "none"
+        },
+        "mono": {
+            "color": "#FFFFFF",
+            "style": "none"
+        },
+        "array": {
+            "color": "#FFFFFF",
+            "style": "none"
+        },
+        "matrix": {
+            "color": "#FFFFFF",
+            "style": "none"
+        }
+    }
+}

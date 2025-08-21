@@ -1,0 +1,12 @@
+.DS_Store
+
+.vscode/
+.dump/
+
+*.log
+*.out
+*.bak
+*.tmp
+*.swp
+*.swo
+.cache/

@@ -1,0 +1,325 @@
+{
+    "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",
+
+    "display": {
+        "separator": "",
+        "stat": false,
+        "brightColor": false,
+        "key": {
+            "width": 20,
+            "type": "string",
+            "paddingLeft": 0
+        },
+        "percent": {
+            "color": {
+                "green": "green",
+                "yellow": "yellow",
+                "red": "red"
+            },
+            "ndigits": 1
+        },
+        "constants": [
+            "\u001b[90m│                                                            │\u001b[60D\u001b[39m",                     // {$1} - Grey Vbars separated by 60 spaces > Cursor reset
+            "\u001b[90m│                 │\u001b[17D\u001b[39m",                                                                // {$2} - Grey Vbars separated by 17 spaces > Cursor reset
+            "\u001b[90m│                                                                               │\u001b[79D\u001b[39m",   // {$3} - Grey Vbars separated by 79 spaces > Cursor reset
+            "\u001b[90m"
+        ]
+    },
+
+    "logo": {
+        "type": "auto",
+        "source": "macos",
+        "preserveAspectRatio": true,
+        "printRemaining": true,
+        "width": 10,
+        "height": 10,
+        "position": "left",
+        "padding": {
+            "top": 3,
+            "left": 2,
+            "right": 2
+        },
+        "color": {
+            "1": "38;2;100;100;100",
+            "2": "38;2;100;100;100",
+            "3": "38;2;100;100;100",
+            "4": "38;2;100;100;100",
+            "5": "38;2;100;100;100",
+            "6": "38;2;100;100;100",
+            "7": "38;2;100;100;100",
+            "8": "38;2;100;100;100",
+            "9": "38;2;100;100;100"
+        }
+    },
+
+    "modules": [
+        // "title",
+        // "separator",
+        // "os",
+        // "host",
+        // "bios",
+        // "bootmgr",
+        // "board",
+        // "chassis",
+        // "kernel",
+        // "initsystem",
+        // "uptime",
+        // "loadavg",
+        // "processes",
+        // "packages",
+        // "shell",
+        // "editor",
+        // "display",
+        // "brightness",
+        // "monitor",
+        // "lm",
+        // "de",
+        // "wm",
+        // "wmtheme",
+        // "theme",
+        // "icons",
+        // "font",
+        // "cursor",
+        // "wallpaper",
+        // "terminal",
+        // "terminalfont",
+        // "terminalsize",
+        // "terminaltheme",
+        // {
+        //     "type": "cpu",
+        //     "showPeCoreCount": true,
+        //     "temp": true
+        // },
+        // "cpucache",
+        // "cpuusage",
+        // {
+        //     "type": "gpu",
+        //     "driverSpecific": true,
+        //     "temp": true
+        // },
+        // "memory",
+        // "physicalmemory",
+        // {
+        //     "type": "swap",
+        //     "separate": true
+        // },
+        // "disk",
+        // "btrfs",
+        // "zpool",
+        // {
+        //     "type": "battery",
+        //     "temp": true
+        // },
+        // "poweradapter",
+        // "player",
+        // "media",
+        // "dns",
+        // "wifi",
+        // "datetime",
+        // "locale",
+        // "vulkan",
+        // "opengl",
+        // "opencl",
+        // "users",
+        // "bluetooth",
+        // "bluetoothradio",
+        // "sound",
+        // "camera",
+        // "gamepad",
+        // "mouse",
+        // "keyboard",
+        // {
+        //   "type": "weather",
+        //   "timeout": 1000
+        // },
+        // "netio",
+        // "diskio",
+        // {
+        //     "type": "physicaldisk",
+        //     "temp": true
+        // },
+        // "tpm",
+        // "version",
+        // "break",
+        // "colors",
+        // "break",
+
+        {
+            "type": "custom",
+            "key": "{#90}╭ Keys ───────────╮",
+            "format": "{#90}╭ Values ────────────────────────────────────────────────────╮"
+        },
+        // Copy-paste the following JSON object to add a module configuration
+        {
+            "type": "custom",
+            "key": "{$2}Key",
+            "format": "{$1}Value"
+        },
+        {
+            "type": "battery",
+            "key": "{$2}{icon} Battery"
+        },
+        {
+            "type": "wifi",
+            "key": "{$2}{icon} Wifi",
+            "format": "{$1}{1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9}, {10}, {11}, {12}"   
+        },
+        // {
+        //     "type": "netio",
+        //     "key": "{$2}{icon} Network I/Os",
+        // },
+        {
+            "type": "loadavg",
+            "key": "{$2}{icon} Loadavg",
+            "format": "{$1}{1}, {2}, {3}"
+        },
+
+        {
+            "type": "title",
+            "key": "{$2}{#32}{icon} User",
+            "format": "{$1}{user-name}  {#2}[{home-dir}]"
+        },
+        {
+            "type": "users",
+            "key": "{$2}{#32}{icon} Users",
+            "myselfOnly": false,
+            "format": "{$1}{1}@{host-name}{/host-name}localhost{/}{?client-ip}  {#2}[IP:{client-ip}]{?}  [Login time: {login-time}]"
+        },
+        {
+            "type": "datetime",
+            "key": "{$2}{#32}{icon} Datetime",
+            "format": "{$1}{year}-{month-pretty}-{day-in-month} {hour-pretty}:{minute-pretty}:{second-pretty}  {#2}[{weekday}] [W{week}] [UTC{offset-from-utc}]"
+        },
+        {
+            "type": "title",
+            "key": "{$2}{#33}{icon} Host",
+            "format": "{$1}{host-name}"
+        },
+        {
+            "type": "host",
+            "key": "{$2}{#33}{icon} Machine",
+            "format": "{$1}{name}  {#2}{version}"
+        },
+        {
+            "type": "os",
+            "key": "{$2}{#33}{icon} OS",
+            "format": "{$1}{?pretty-name}{pretty-name}{?}{/pretty-name}{name}{/} {codename}  {#2}[v{version}] [{arch}]"
+        },
+        {
+            "type": "kernel",
+            "key": "{$2}{#33}{icon} Kernel",
+            "format": "{$1}{sysname}  {#2}[v{release}]"
+        },
+        {
+            "type": "uptime",
+            "key": "{$2}{#33}{icon} Uptime",
+            "format": "{$1}{?days}{days} Days + {?}{hours}:{minutes}:{seconds}"
+        },
+        {
+            "type": "cpu",
+            "key": "{$2}{#31}{icon} CPU",
+            "showPeCoreCount": true,
+            "temp": true,
+            "format": "{$1}{name}  {#2}[C:{core-types}] [{freq-max}]"
+        },
+        {
+            "type": "gpu",
+            "key": "{$2}{#31}{icon} GPU",
+            "detectionMethod": "auto",
+            "driverSpecific": true,
+            "format": "{$1}{name}  {#2}[C:{core-count}]{?frequency} [{frequency}]{?} {#2}[{type}]"
+        },
+        {
+            "type": "memory",
+            "key": "{$2}{#31}{icon} Memory",
+            "format": "{$1}{used} / {total} ({percentage})"
+        },
+        {
+            "type": "disk",
+            "key": "{$2}{#31}{icon} Disk",
+            "format": "{$1}{size-used} / {size-total} ({size-percentage})"
+        },
+        {
+            "type": "poweradapter",
+            "key": "{$2}{#31}{icon} Power",
+            "format": "{$1}{name}"
+        },
+        {
+            "type": "terminal",
+            "key": "{$2}{#35}{icon} Terminal",
+            "format": "{$1}{pretty-name}  {#2}[{version}] [PID:{pid}]"
+        },
+        {
+            "type": "terminalfont",
+            "key": "{$2}{#35}{icon} Font",
+            "format": "{$1}{name}  {#2}[{size}]"
+        },
+        {
+            "type": "shell",
+            "key": "{$2}{#35}{icon} Shell",
+            "format": "{$1}{pretty-name}  {#2}[v{version}] [PID:{pid}]"
+        },
+        {
+            // localip IPv4
+            "type": "localip",
+            "key": "{$2}{#34}{icon} Local IPv4",
+            "showPrefixLen": true,
+            "showIpv4": true,
+            "showIpv6": false,
+            "showMtu": true,
+            "format": "{$1}{ifname}: {ipv4}  {#2}[MTU:{mtu}]"
+        },
+        {
+            // localip IPv6
+            "type": "localip",
+            "key": "{$2}{#34}{icon} Local IPv6",
+            "showPrefixLen": true,
+            "showIpv4": false,
+            "showIpv6": true,
+            "showMtu": true,
+            "format": "{$1}{ifname}: {ipv6}  {#2}[MTU:{mtu}]"
+        },
+        {
+            "type": "publicip",
+            "key": "{$2}{#34}{icon} Public IPv4",
+            "ipv6": false,
+            "format": "{$1}{ip}  {#2}[{location}]"
+        },
+        {
+            "type": "publicip",
+            "key": "{$2}{#34}{icon} Public IPv6",
+            "ipv6": true,
+            "format": "{$1}{ip}  {#2}[{location}]"
+        },
+        // CUSTOM - Button UI bar
+        {
+            "type": "custom",
+            "key": "{#90}╰─────────────────╯",
+            "format": "{#90}╰────────────────────────────────────────────────────────────╯"
+        }
+        // {
+        //     "type": "custom",
+        //     "key": " ",
+        //     "format": "{#90}╭ Colors ───────────────────────────────────────────────────────────────────────╮"
+        // },
+        // {
+        //     "type": "custom",
+        //     "format": "{$3}{#40}   {#41}   {#42}   {#43}   {#44}   {#45}   {#46}   {#47}   {#}"
+        // },
+        // {
+        //     "type": "custom",
+        //     "format": "{$3}{#100}   {#101}   {#102}   {#103}   {#104}   {#105}   {#106}   {#107}   {#}"
+        // },
+        // {
+        //     "type": "title",
+        //     "key": " ",
+
+        //     "format": "{$3}{$4}              Welcome back, {full-user-name} — Ready to dev 🚀"
+        // },
+        // {
+        //     "type": "custom",
+        //     "format": "{#90}╰───────────────────────────────────────────────────────────────────────────────╯"
+        // }
+
+    ]
+}
