@@ -43,6 +43,7 @@ alias treed='tree -hp'
 alias rdm='echo $((RANDOM%2+0))'
 
 # Python tools
+
 alias readme='py $HOME/Documents/Code/ReadmeEngine/readme-engine.py'
 
 alias wl='py ~/.worklog/worklog.py'
@@ -52,3 +53,10 @@ alias kewcfg='code $HOME/Library/Preferences/kew/kewrc'
 alias k='kew all'
 
 alias cfg='code $ZSH_CFG && code $HOME/Library/Preferences/kew/kewrc'
+
+# Git aliases
+
+# alias gall='git add .'
+# alias call='git commit -am'
+# alias gc='git checkout'
+# alias gb='git checkout -b'

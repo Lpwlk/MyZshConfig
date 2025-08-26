@@ -2,20 +2,19 @@
 
 run_test() {
 
-    local embedded=false
+    local array_mbed=false
     local cmds=()
 
     while [[ $# -gt 0 ]]; do
         case "$1" in
-            -h) embedded=$(! $embedded); shift ;;
-            --) shift; break ;;
+            -m) array_mbed=$(! $array_mbed); shift ;;
             -*) echo "Unknown option: $1"; return 1 ;;
             *) break ;;
         esac
     done
 
-    if [[ $print_header ]]; then 
-        log TEST -fi " Running test on: $RESET$ITALIC$1$RESET"
+    if [[ $array_mbed ]]; then 
+        log TEST -fi "Running test on: $RESET$ITALIC$1$RESET"
     fi
 
     echo -n "Output > $RESET"
@@ -23,7 +22,7 @@ run_test() {
     local ret=$?
 
 
-    if $print_footer; then
+    if $array_mbed; then
         echo "Test summary$RESET"
         if [[ $ret -eq 0 ]]; then
             echo "  └── Result:$RESET $GREEN 󰄬 Passed$RESET"
@@ -36,18 +35,14 @@ run_test() {
     return $ret
 }
 
-
 run_test_array() {
 
-    local print_header=true
-    local print_footer=true
+    local matrix_mbed=false
     local cmds=()
 
     while [[ $# -gt 0 ]]; do
         case "$1" in
-            -h) print_header=$(! $print_header); shift ;;
-            -f) print_footer=$(! $print_footer); shift ;;
-            --) shift; break ;;
+            -m) matrix_mbed=$(! $matrix_mbed); shift ;;
             -*) echo "Unknown option: $1"; return 1 ;;
             *) break ;;
         esac
@@ -91,12 +86,12 @@ run_test_matrix() {
  
     local total_passed=0
     local total_failed=0
-    local total_tests=0
+    local num_tests
     log TEST -fi "󰙨 Running group of test sections ...$RESET"
 
     for test_name in "$@"; do
         eval "current_tests=(\"\${${test_name}[@]}\")"
-        local num_tests=${#current_tests[@]}
+        num_tests=${#current_tests[@]}
 
         echo
         echo "  󰙨 Running test section: $BOLD$test_name$RESET $DIM($num_tests tests)$RESET"
@@ -106,12 +101,12 @@ run_test_matrix() {
         (( total_failed += ret ))
         (( total_tests += num_tests ))
     done
-    print_footer=true
-    if [[ $print_footer ]]; then
+
+    if [[ $embedded ]]; then
         echo "Matrix test summary:"
-        echo "    ├── Total :  $total_tests$RESET"
-        echo "    ├── Passed:  $total_passed$RESET"
-        echo "    └── Failed:  $total_failed$RESET"
+        echo "    ├── Total : $total_tests$RESET"
+        echo "    ├── Passed: $total_passed$RESET"
+        echo "    └── Failed: $total_failed$RESET"
         echo
     fi
 
@@ -119,65 +114,66 @@ run_test_matrix() {
 }
 
 # -------- Tests Definitions ---------
-
-test_help=(
-    "log --help"
-)
-
+# -- Basic levels
 test_levels=(
-    "log DBG 'Debug message at DBG level'"
-    "log INFO 'Informational message at INFO level'"
-    "log WARN 'Warning message at WARN level'"
-    "log ERR 'Error message at ERR level'"
+    "log ZSH 'This is a ZSH message'"
+    "log TEST 'This is a TEST message'"
+    "log DBG 'This is a DEBUG message'"
+    "log INFO 'This is an INFO message'"
+    "log WARN 'This is a WARNING message'"
+    "log ERR 'This is an ERROR message'"
     "log 'Message with no explicit level (NONE)'"
 )
 
-test_timestamp=(
-    "log INFO --timestamp none 'Timestamp disabled (none)'"
-    "log INFO --timestamp time 'Timestamp with time only (HH:MM:SS)'"
-    "log INFO --timestamp date 'Timestamp with date only (YYYY-MM-DD)'"
-    "log INFO --timestamp full 'Timestamp with full date & time (YYYY-MM-DD HH:MM:SS)'"
+# -- Timestamp modes
+test_timestamps=(
+    "log INFO -t none 'Timestamp disabled'"
+    "log INFO -t time 'Timestamp (time only)'"
+    "log INFO -t date 'Timestamp (date only)'"
+    "log INFO -t full 'Timestamp (full date+time)'"
 )
 
-test_logfile=(
-    "log INFO --logfile /tmp/test_log.log 'Logging to /tmp/test_log.log file'"
-    "log WARN -f /tmp/test_log_warn.log 'Logging warning to /tmp/test_log_warn.log file'"
+# -- Level modes
+test_levels_modes=(
+    "log INFO -l none 'No level indicator'"
+    "log INFO -l level 'Level name only'"
+    "log INFO -l icon 'Icon only'"
+    "log INFO -l full 'Icon + level name'"
 )
 
-test_stdout_file_toggle=(
-    "log INFO --stdout 'Toggle stdout off (first call)'"
-    "log INFO --stdout 'Toggle stdout on (second call)'"
-    "log INFO --no-console 'Disable stdout output explicitly'"
-    "log INFO --console 'Enable stdout output explicitly'"
-    "log INFO --file 'Toggle file output off (first call)'"
-    "log INFO --file 'Toggle file output on (second call)'"
-    "log INFO --no-file 'Disable file output explicitly'"
-    "log INFO --file 'Enable file output explicitly'"
+# -- Stdout/File toggles
+test_output_toggles=(
+    "log INFO -so 'Toggle stdout (first call → disable)'"
+    "log INFO -so 'Toggle stdout (second call → enable)'"
+    "log INFO -fo 'Toggle file (first call → disable)'"
+    "log INFO -fo 'Toggle file (second call → enable)'"
 )
 
-test_filename_funcname_toggle=(
-    "log INFO --filename 'Toggle filename display off/on'"
-    "log INFO --filename 'Toggle filename display again'"
-    "log INFO --funcname 'Toggle function name display off/on'"
-    "log INFO --funcname 'Toggle function name display again'"
+# -- Filename/Funcname toggles
+test_context_toggles=(
+    "log INFO -fi 'Toggle filename (first call → disable)'"
+    "log INFO -fi 'Toggle filename (second call → enable)'"
+    "log INFO -fn 'Toggle funcname (first call → disable)'"
+    "log INFO -fn 'Toggle funcname (second call → enable)'"
 )
 
+# -- Custom logfile
+test_logfiles=(
+    "log INFO -f /tmp/logger_test1.log 'Log written to custom logfile 1'"
+    "log WARN --logfile /tmp/logger_test2.log 'Log written to custom logfile 2'"
+)
+
+# -- Combinations
 test_combinations=(
-    "log WARN --timestamp full --no-console --logfile /tmp/combined.log -fi -fn 'Combined options test with full timestamp, no stdout, custom logfile, filename and funcname toggled'"
-    "log ERR --no-file --no-console 'No output anywhere (file and stdout disabled)'"
-    "log DBG --timestamp none --stdout --file 'Debug message, timestamp none, stdout and file enabled'"
-    "log INFO -fi -fn -so -fo 'All toggles short flags combined'"
-    "log 'Message with no level and default options (timestamp time, stdout/file on)'"
-    "log ERR -so -fo 'Error with toggled outputs (stdout and file toggled)'"
-    "log WARN --logfile /tmp/test.log 'Warning with custom logfile /tmp/test.log'"
-    "log INFO 'Testing special chars: äöü ß € © ✓'"
+    "log WARN -t full -l icon -fo -fi -fn 'Warning with full ts, icon only, file disabled, context toggled'"
+    "log ERR -t time -l level -so -fo 'Error with level name only, both stdout and file toggled'"
+    "log DBG -t none -l none 'Debug with no timestamp and no level indicator'"
 )
 
+# -- Edge cases
 test_edge_cases=(
-    "log 'Empty message test (no level, default options)'"
-    "log -fi -fn 'Filename and funcname only message toggled off/on'"
-    "log --timestamp unknown 'Unknown timestamp mode, fallback to time'"
-    "log ERR --logfile '' 'Empty logfile path, fallback to default'"
-    "log --timestamp none -fi 'Timestamp none with filename toggled off/on'"
-    "log --stdout --file 'Explicit enable outputs (stdout and file)'"
+    "log 'Empty message with defaults'"
+    "log INFO '' 'Message argument empty'"
+    "log UNKNOWN 'Unknown log level (should fallback)'"
+    "log INFO -f '' 'Empty logfile path should fallback to default'"
 )

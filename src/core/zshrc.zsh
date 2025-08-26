@@ -13,49 +13,28 @@ clear && printf "\\e[3J"
 
 source $ZSH_CFG/cfg/sourcing.zsh
 
-fastfetch --config $(parseCfg fastfetch.config_path)
+# fastfetch --config $(parseCfg fastfetch.config_path)
 
 # test_arr_1=(
-#     "echo ez"
-#     "echo ezdeouf"
+#     "echo a"
+#     "echo b"
 # )
 
 # test_arr_2=(
-#     "ech t ez"
-#     "echo t ezdeouf"
+#     "ech c"
+#     "echo d"
 # )
 
-# echo ____run_test_matrix_____________________________________________________________________________________________ && echo
+# echo && echo "${BOLD}${BLUE}____run_test_matrix_____________________________________________________________________________________________" && echo
 # run_test_matrix test_arr_1 test_arr_2
-# echo ____run_test_array______________________________________________________________________________________________ && echo
+# echo && echo "${BOLD}${BLUE}____run_test_array______________________________________________________________________________________________" && echo
 # run_test_array test_arr_1
-# echo ____run_test____________________________________________________________________________________________________ && echo
-# run_test "echo ez"
+# echo && echo "${BOLD}${BLUE}____run_test____________________________________________________________________________________________________" && echo
+# run_test "echo a"
 
 # run_test_matrix test_levels test_timestamps test_levels_modes test_output_toggles test_context_toggles test_logfiles test_combinations test_edge_cases
 
-function fastFetchHotReload() {
-    local config="${1:-$ZSH_CFG/cfg/fastfetch/config.jsonc}"
-    if [[ ! -f "$config" ]]; then
-        echo "Config introuvable : $config"
-        return 1
-    fi
-    echo "Sniffing $config file updates ... (Ctrl+C to quit)"
 
-    while true; do
-        clear
-        fastfetch --config "$config"
-
-        if command -v inotifywait &>/dev/null; then                 # Linux (inotifywait)
-            inotifywait -q -e modify "$config" >/dev/null
-        elif command -v fswatch &>/dev/null; then                   # macOS (fswatch)
-            fswatch -1 "$config" >/dev/null
-        else
-            echo "Error: Didnt found any 'inotifywait' nor 'fswatch' executable"
-            return 1
-        fi
-    done
-}
 
 # OMZ & p10k settings
 

@@ -62,18 +62,7 @@
         "level": {
           "type": "object",
           "properties": {
-            "zsh": {
-              "type": "object",
-              "properties": {
-                "color": { "type": "string", "format": "color" },
-                "style": { "type": "string" },
-                "icon": { "type": "string" },
-                "priority": { "type": "integer" }
-              },
-              "required": ["color", "style", "icon", "priority"],
-              "additionalProperties": false
-            },
-            "test": {
+            "none": {
               "type": "object",
               "properties": {
                 "color": { "type": "string", "format": "color" },
@@ -106,6 +95,29 @@
               "required": ["color", "style", "icon", "priority"],
               "additionalProperties": false
             },
+            "zsh": {
+              "type": "object",
+              "properties": {
+                "color": { "type": "string", "format": "color" },
+                "style": { "type": "string" },
+                "icon": { "type": "string" },
+                "priority": { "type": "integer" }
+              },
+              "required": ["color", "style", "icon", "priority"],
+              "additionalProperties": false
+            },
+            "test": {
+              "type": "object",
+              "properties": {
+                "color": { "type": "string", "format": "color" },
+                "style": { "type": "string" },
+                "icon": { "type": "string" },
+                "priority": { "type": "integer" }
+              },
+              "required": ["color", "style", "icon", "priority"],
+              "additionalProperties": false
+            },
+
             "warn": {
               "type": "object",
               "properties": {
@@ -129,7 +141,7 @@
               "additionalProperties": false
             }
           },
-          "required": ["zsh", "test", "dbg", "info", "warn", "error"],
+          "required": ["none", "dbg", "info", "zsh", "test", "warn", "error"],
           "additionalProperties": false
         },
         "filename": {

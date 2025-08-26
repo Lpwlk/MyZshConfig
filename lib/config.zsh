@@ -5,6 +5,7 @@ CONFIG_SCHEMA="$ZSH_CFG/cfg/zshrcConfig.sch.jsonc"
 typeset -gA CONFIG
 
 loadCfg() {
+
     if [[ ! -f "$CONFIG_FILE" ]]; then
         echo "Config file not found at $CONFIG_FILE" >&2
         return 1
@@ -26,6 +27,7 @@ loadCfg() {
             [($p | join(".")), (getpath($p))] |
             "\(.[0])=\(.[1])"'
     )
+
 }
 
 getKey() {

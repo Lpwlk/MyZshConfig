@@ -34,21 +34,15 @@
             "style": "dim"
         },
         "message": {
-            "color": "#ffffff",
+            "color": "none",
             "style": "none"
         },
         "level": {
-            "zsh": {
-                "color": "#e4df4e",
-                "style": "yellow+none",
-                "icon": "",
-                "priority": 1
-            },
-           "test": {
-                "color": "#d668db",
+            "none": {
+                "color": "none",
                 "style": "none",
-                "icon": "󰙨",
-                "priority": 1
+                "icon": "",
+                "priority": 2
             },
            "dbg": {
                 "color": "#a5db68",
@@ -60,6 +54,18 @@
                 "color": "#6898db",
                 "style": "none",
                 "icon": "󰋽",
+                "priority": 2
+            },
+            "zsh": {
+                "color": "yellow",
+                "style": "none",
+                "icon": "",
+                "priority": 2
+            },
+           "test": {
+                "color": "#d668db",
+                "style": "none",
+                "icon": "󰙨",
                 "priority": 2
             },
            "warn": {
@@ -76,7 +82,6 @@
             }
         }
     },
-    //test
     "test": {
         "logos": {
             "echoLogo": true,

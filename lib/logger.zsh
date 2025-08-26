@@ -1,9 +1,52 @@
 #!/bin/zsh
 
-LOG_LEVEL="DEBUG"
+LOG_LEVELS=(
+    "NONE"
+    "DBG"
+    "INFO"
+    "ZSH"
+    "TEST"
+    "WARN"
+    "ERR"
+)
 
-log_help() {
-  cat << EOF
+checkLogLevel() {
+    for l in ${LOG_LEVELS[@]}; do
+        [[ $l == $1 ]] && return 0
+    done
+    echo "[ERROR] Invalid log level: '$1'\n        Available levels: ${LOG_LEVELS[*]}" >&2
+    return 1
+}
+
+LOG_LEVEL=""
+
+setLogLevel() {
+    if checkLogLevel $1; then
+        LOG_LEVEL=$1 && return 0
+    fi
+    return 1
+}
+
+setLogLevel DBG
+
+checkPriority() {
+    local level=$1
+    local priority=$2
+    local min_priority
+
+    case $level in
+        ZSH|TEST|DBG) min_priority=1 ;;
+        INFO)         min_priority=2 ;;
+        WARN)         min_priority=3 ;;
+        ERR)          min_priority=4 ;;
+        *)            min_priority=1 ;;
+    esac
+
+    [[ $priority -lt $min_priority ]] && return 1 || return 0
+}
+
+logHelp() {
+    cat << EOF
 $YELLOW
 ──────────────────────────────────────── Zsh logger help  ────────────────────────────────────────
 $RESET
@@ -39,6 +82,7 @@ $YELLOW > Options:$RESET                    Description                         
     -fo | --file            Toggle file output                  $DIM true $RESET
     -fi | --filename        Toggle filename in log message      $DIM true $RESET
     -fn | --funcname        Toggle function name in log message $DIM true $RESET
+    -li | --light           Light stdout display                $DIM false $RESET
 
 $YELLOW > Examples:$RESET
     log INFO --timestamp datetime "Info message with full timestamp"
@@ -47,6 +91,7 @@ EOF
 }
 
 log() {
+
     local message_parts=()
     local priority min_priority
 
@@ -59,7 +104,7 @@ log() {
     local level_mode="full"
 
     local stdout_msg file_msg
-
+    
     # Default output flags (enabled)
     local to_stdout=true
     local to_logfile=true
@@ -73,12 +118,12 @@ log() {
     local funcnameStyle=$(parseCfg logger.funcname.color)$(parseCfg logger.funcname.style)
     local messageStyle=$(parseCfg logger.message.color)$(parseCfg logger.message.style)
     local levelStyle levelIcon
-
+    
     while [[ $# -gt 0 ]]; do
         case "$1" in
             -h|--help)
-                log_help; return 0 ;;
-            ZSH|TEST|DBG|INFO|WARN|ERR)
+                logHelp; return 0 ;;
+            (${~${(j:|:)LOG_LEVELS}}))
                 level="$1"; shift ;;
             -f|--logfile)
                 logfile="$2"; shift 2 ;;
@@ -94,24 +139,22 @@ log() {
                 show_filename=$(! $show_filename); shift ;;
             -fn|--funcname)
                 show_funcname=$(! $show_funcname); shift ;;
+            -li|--light)
+                level_mode=full; 
+                timestamp_mode=time;
+                show_filename=true; 
+                show_funcname=false; 
+                shift ;;
             *)
                 message_parts+=("$1"); shift ;;
         esac
     done
 
-    case "$LOG_LEVEL" in
-        ZSH)   min_priority=1 ;;
-        TEST)   min_priority=1 ;;
-        DBG)    min_priority=1 ;;
-        INFO)   min_priority=2 ;;
-        WARN)   min_priority=3 ;;
-        ERR)    min_priority=4 ;;
-        *)      min_priority=1 ;;
-    esac
+    [[ -z $level ]] && level="NONE"
 
     priority=$(parseCfg logger.level.${level:l}.priority)
 
-    [[ $priority -lt $min_priority ]] && return
+    checkPriority $LOG_LEVEL $priority || return
 
     local message="$messageStyle${(j: :)message_parts}"
 
@@ -123,15 +166,16 @@ log() {
         *) timestamp_str="${timestampStyle}$(date +"%H:%M:%S")$RESET" ;;
     esac
 
+    
     levelStyle=$(parseCfg logger.level.${level:l}.color)$(parseCfg logger.level.${level:l}.style)
     levelIcon=$(parseCfg logger.level.${level:l}.icon)
 
     case "$level_mode" in
         n|none)  level_str="$RESET" ;;
-        l|level) level_str="${levelStyle}${level:+$level }─ $RESET" ;;
-        i|icon)  level_str="${levelStyle}${levelIcon:+$levelIcon }─ $RESET" ;;
-        f|full)  level_str="${levelStyle}${levelIcon:+$levelIcon }${level:+$level }─ $RESET";;
-        *)       level_str="${levelStyle}${levelIcon:+$levelIcon }${level:+$level }─ $RESET";;
+        l|level) level_str="${levelStyle}${level:+$level }─$RESET" ;;
+        i|icon)  level_str="${levelStyle}${levelIcon:+$levelIcon }─$RESET" ;;
+        f|full)  level_str="${levelStyle}${levelIcon:+$levelIcon }${level:+$level }─$RESET";;
+        *)       level_str="${levelStyle}${levelIcon:+$levelIcon }${level:+$level }─$RESET";;
     esac
 
     local context_str="$RESET"
@@ -139,80 +183,17 @@ log() {
     [[ $show_funcname == true ]] && context_str="[${funcnameStyle}${funcstack[2]:-main}$RESET]"
     [[ $show_filename == true && $show_funcname == true ]] && context_str="[${filenameStyle}$(basename ${funcfiletrace[1]%:*})$RESET → ${funcnameStyle}${funcstack[2]:-main}$RESET]"
 
-    
-    # File output
     if $to_stdout; then
         local stdout_msg="${timestamp_str:+$timestamp_str }${context_str:+$context_str }${level_str:+$level_str }$messageStyle$message$RESET"
-        echo -e $stdout_msg
+        if ! printf "%s\n" "$stdout_msg"; then
+            return 1
+        fi
     fi
 
-    # File output
     if $to_logfile; then
-        local file_msg="$(date +"%Y-%m-%d %H:%M:%S") [$(basename ${funcfiletrace[1]%:*}) → ${funcstack[2]:-main}]${icon:+$icon }${level:+$level }─ $message"
-        echo "$file_msg" | sed -r 's/\x1B\[[0-9;]*[JKmsu]//g' >> $logfile
+        local file_msg="$(date +"%Y-%m-%d %H:%M:%S") [$(basename ${funcfiletrace[1]%:*}) → ${funcstack[2]:-main}] ${icon:+$icon }${level:+$level }─ $message"
+        if ! printf "%s\n" "$file_msg" | sed -r 's/\x1B\[[0-9;]*[JKmsu]//g' >> "$logfile"; then
+            return 2
+        fi
     fi
 }
-
-
-# -- Basic levels
-test_levels=(
-  "log TEST 'This is a TEST message'"
-  "log DBG 'This is a DEBUG message'"
-  "log INFO 'This is an INFO message'"
-  "log WARN 'This is a WARNING message'"
-  "log ERR 'This is an ERROR message'"
-  "log 'Message with no explicit level (NONE)'"
-)
-
-# -- Timestamp modes
-test_timestamps=(
-  "log INFO -t none 'Timestamp disabled'"
-  "log INFO -t time 'Timestamp (time only)'"
-  "log INFO -t date 'Timestamp (date only)'"
-  "log INFO -t full 'Timestamp (full date+time)'"
-)
-
-# -- Level modes
-test_levels_modes=(
-  "log INFO -l none 'No level indicator'"
-  "log INFO -l level 'Level name only'"
-  "log INFO -l icon 'Icon only'"
-  "log INFO -l full 'Icon + level name'"
-)
-
-# -- Stdout/File toggles
-test_output_toggles=(
-  "log INFO -so 'Toggle stdout (first call → disable)'"
-  "log INFO -so 'Toggle stdout (second call → enable)'"
-  "log INFO -fo 'Toggle file (first call → disable)'"
-  "log INFO -fo 'Toggle file (second call → enable)'"
-)
-
-# -- Filename/Funcname toggles
-test_context_toggles=(
-  "log INFO -fi 'Toggle filename (first call → disable)'"
-  "log INFO -fi 'Toggle filename (second call → enable)'"
-  "log INFO -fn 'Toggle funcname (first call → disable)'"
-  "log INFO -fn 'Toggle funcname (second call → enable)'"
-)
-
-# -- Custom logfile
-test_logfiles=(
-  "log INFO -f /tmp/logger_test1.log 'Log written to custom logfile 1'"
-  "log WARN --logfile /tmp/logger_test2.log 'Log written to custom logfile 2'"
-)
-
-# -- Combinations
-test_combinations=(
-  "log WARN -t full -l icon -fo -fi -fn 'Warning with full ts, icon only, file disabled, context toggled'"
-  "log ERR -t time -l level -so -fo 'Error with level name only, both stdout and file toggled'"
-  "log DBG -t none -l none 'Debug with no timestamp and no level indicator'"
-)
-
-# -- Edge cases
-test_edge_cases=(
-  "log 'Empty message with defaults'"
-  "log INFO '' 'Message argument empty'"
-  "log UNKNOWN 'Unknown log level (should fallback)'"
-  "log INFO -f '' 'Empty logfile path should fallback to default'"
-)

@@ -30,26 +30,27 @@ sourceZshDir() {
     fi  
 
     start=$(date +%s%N)
+
     log ZSH "  Sourcing $DIM${folder:h}/$RESET${folder:t} directory..."
 
     find $folder -type f -name "*.zsh" ! -path "$ZSH_CFG$exclude" | while read -r file; do
         sstart=$(date +%s%N)
         test -e $file && source $file
         elapsed=$(($(($(date +%s%N) - sstart)) / timediv))
-        echo "    ${file:t} sourcing done (󱦟 ${elapsed} ${suffix})"
+        # log ZSH "${file:t} sourcing done (󱦟 ${elapsed} ${suffix})" -sli
         sleep $sleep_time
     done
     elapsed=$(($(($(date +%s%N) - start)) / timediv))
-    log ZSH "    $folder sourcing done (󱦟 ${elapsed} ${suffix})"
+    log ZSH "$folder sourcing done (󱦟 ${elapsed} ${suffix})" -li
 }
 
 sourceZshCfg() {
-    source $ZSH_CFG/lib/ansi.zsh 
-    source $ZSH_CFG/lib/config.zsh 
+    source $ZSH_CFG/lib/ansi.zsh
+    source $ZSH_CFG/lib/config.zsh
     source $ZSH_CFG/lib/logger.zsh
-    sourceZshDir -u ms -s 0.01 -d $ZSH_CFG/lib
-    sourceZshDir -u ms -s 0.01 -d $ZSH_CFG/src/utils
-    sourceZshDir -u ms -s 0.01 -d $ZSH_CFG/src/core -e /src/core/zshrc.zsh
+    sourceZshDir -u ms -s 0.001 -d $ZSH_CFG/lib
+    sourceZshDir -u ms -s 0.001 -d $ZSH_CFG/src/utils
+    sourceZshDir -u ms -s 0.001 -d $ZSH_CFG/src/core -e /src/core/zshrc.zsh
 }
 
 sourceZshCfg
